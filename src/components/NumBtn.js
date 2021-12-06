@@ -10,7 +10,8 @@ const NumBtn = (props) => {
     return (
         <Button classname={ props.classname }
                 callback = { callBack }
-                value = { props.value } />
+                value = { props.value }
+                key = { "num" + props.value } />
     );
 };
 
