@@ -8,10 +8,11 @@ const Main = () => {
 
     const [display, setDisplay] = useState("");
     const [operand1, setOperand1] = useState(0);
-    const [operand2, setOperand2] = useState(0);
-    const [currOperand, setCurrOperand] = useState(0);
+    // const [operand2, setOperand2] = useState(0);
+    // const [currOperand, setCurrOperand] = useState(0);
     const [operator, setOperator] = useState(0);
     const [result, setResult] = useState(0);
+    const [history, setHistory] = useState([]);
 
     // Majority of the numbers (rows 1-3)
     const numbers = [
@@ -35,8 +36,8 @@ const Main = () => {
 
         // Creates the numbered buttons within a row
         let rowNums = numValues.map((col) =>
-            <div className="col" key={"numDiv" + col}>
-                <NumBtn classname="btn btn-secondary" style={{width: '100%'}} value={col} display={display} setDisplay={setDisplay} />
+            <div className="col" key={"numDiv" + col} style={{width: '100%'}}>
+                <NumBtn classname="btn btn-secondary" value={col} display={display} setDisplay={setDisplay} history={ history } setHistory={ setHistory } />
             </div>
         )
 
@@ -64,7 +65,7 @@ const Main = () => {
             value: '=',
             keyName: "Eval",
             colClass: "col-md-3",
-            operation: evaluate(operand1, currOperand)
+            operation: evaluate
         }
     ];
 
@@ -73,9 +74,30 @@ const Main = () => {
         let obj;
 
         if ("operation" in item) {
-            obj = <OperationBtn classname="btn btn-secondary" style={{width: '100%'}} value={item.value} />
+            // obj = <OperationBtn classname="btn btn-secondary" style={{width: '100%'}} value={item.value} />
+            obj = <OperationBtn
+                    classname="btn btn-secondary"
+                    value={ item.value }
+                    operation={ item.operation }
+                    operand1={ operand1 }
+                    operand={ display }
+                    operator={ operator }
+                    setOperand1={ setOperand1 }
+                    // setOperand2={ setOperand2 }
+                    result = { result }
+                    setResult={ setResult }
+                    setOperator={ setOperator }
+                    history={ history }
+                    setHistory={ setHistory } />
         } else {
-            obj = <NumBtn classname="btn btn-secondary" style={{width: '100%'}} value={item.value} display={display} setDisplay={setDisplay} />
+            obj = <NumBtn
+                        classname="btn btn-secondary"
+                        style={{width: '100%'}} 
+                        value={item.value} 
+                        display={display} 
+                        setDisplay={setDisplay}
+                        history={ history }
+                        setHistory={ setHistory } />
         }
 
         return (
@@ -112,11 +134,15 @@ const Main = () => {
                 value={ op.operation }
                 operation={ op.callback }
                 operand1={ operand1 }
+                operand={ display }
                 operator={ operator }
                 setOperand1={ setOperand1 }
-                setOperand2={ setOperand2 }
+                // setOperand2={ setOperand2 }
+                result={ result }
                 setResult={ setResult }
-                setOperator={ setOperator } />
+                setOperator={ setOperator }
+                history={ history }
+                setHistory={ setHistory } />
         </div>
     )
 
