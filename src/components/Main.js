@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CalculatorDisplay from './CalculatorDisplay';
 import NumBtn from './NumBtn';
 import OperationBtn from './OperationBtn';
 import { evaluate, add } from './utils.js';
+import './components.css';
+
 
 const Main = () => {
 
@@ -13,6 +15,23 @@ const Main = () => {
     const [operator, setOperator] = useState(0);
     const [result, setResult] = useState(0);
     const [history, setHistory] = useState([]);
+    const [historyDisp, setHistoryDisp] = useState("");
+    const [buffer, setBuffer] = useState([]);
+
+    // Re-render this only if "history" changes
+    useEffect( () => {
+
+        const calcHistory = history.map((item) => {
+            return item;
+        })
+
+        setHistoryDisp(calcHistory);
+
+    }, [history]);
+
+    useEffect( () => {
+        console.log("operand1 has been changed to: " + operand1);
+    }, [operand1]);
 
     // Majority of the numbers (rows 1-3)
     const numbers = [
@@ -37,13 +56,13 @@ const Main = () => {
         // Creates the numbered buttons within a row
         let rowNums = numValues.map((col) =>
             <div className="col" key={"numDiv" + col} style={{width: '100%'}}>
-                <NumBtn classname="btn btn-secondary" value={col} display={display} setDisplay={setDisplay} history={ history } setHistory={ setHistory } />
+                <NumBtn classname="btn btn-secondary" value={col} display={display} setDisplay={setDisplay} buffer={ buffer } setBuffer={ setBuffer } />
             </div>
         )
 
         // Returns a single row of numbers
         return (
-            <div className="row" key={"row" + row.rowNum } style={{margin: '5px' }}>
+            <div className="row row-margin" key={"row" + row.rowNum }>
                 { rowNums }
             </div>
         ) 
@@ -53,18 +72,15 @@ const Main = () => {
     const row4 = [
         { 
             value: 0,
-            keyName: 0,
-            colClass: "col-md-6"
+            keyName: 0
         },
         { 
             value: '.',
-            keyName: "Deci",
-            colClass: "col-md-3"
+            keyName: "Deci"
         },
         {
             value: '=',
             keyName: "Eval",
-            colClass: "col-md-3",
             operation: evaluate
         }
     ];
@@ -87,6 +103,8 @@ const Main = () => {
                     result = { result }
                     setResult={ setResult }
                     setOperator={ setOperator }
+                    buffer={ buffer }
+                    setBuffer={ setBuffer }
                     history={ history }
                     setHistory={ setHistory } />
         } else {
@@ -96,12 +114,12 @@ const Main = () => {
                         value={item.value} 
                         display={display} 
                         setDisplay={setDisplay}
-                        history={ history }
-                        setHistory={ setHistory } />
+                        buffer={ buffer }
+                        setBuffer={ setBuffer } />
         }
 
         return (
-            <div className={ item.colClass } key={"btn" + item.keyName}>
+            <div className="col" key={"btn" + item.keyName}>
                 { obj }
             </div>
         )
@@ -141,8 +159,8 @@ const Main = () => {
                 result={ result }
                 setResult={ setResult }
                 setOperator={ setOperator }
-                history={ history }
-                setHistory={ setHistory } />
+                buffer={ buffer }
+                setBuffer={ setBuffer } />
         </div>
     )
 
@@ -154,7 +172,7 @@ const Main = () => {
                     <div className="card" key="mainCalc">
                         <div className="card-body" key="mainBody" >
                             {/* Input/Result display */}
-                            <div className="row" key="displayRow">
+                            <div className="row row-margin" key="displayRow">
                                 <div className="col" key="inputDisplayDiv">
                                     <CalculatorDisplay label="Input" value={ display } propsKey="inpDisplay" />
                                 </div>
@@ -181,7 +199,7 @@ const Main = () => {
                                     { numBtns }
 
                                     {/* Zero + some operations */}
-                                    <div className="row" key="row4">
+                                    <div className="row row-margin" key="row4">
                                         {/* <div className="col" key="numDiv0">
                                             <NumBtn classname="btn btn-secondary" style={{width: '100%'}} value={0} display={display} setDisplay={setDisplay} />
                                         </div> */}
@@ -206,6 +224,7 @@ const Main = () => {
                         </div>
                         <div className="card-body" key="historyBody">
                             {/* History content */}
+                            { historyDisp }
                         </div>
                     </div>
                 </div>

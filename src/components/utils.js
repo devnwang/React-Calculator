@@ -1,7 +1,10 @@
-// TODO: Figure out how to implement the operation buttons and how evaluations are going to occur
 
-// Why is this running on page load?
-export function evaluate (op1, operand, operator) {
+// FIXME: History/buffer doesn't reset after first execution of evaluate operation
+
+// props.operation(props.operand1, props.operand, props.operator, props.setOperand1, props.result, props.setResult, props.setOperator);
+export function evaluate (op1, operand, operator, setCurrOperator) {
+
+    console.log("executing evaluate function");
 
     console.log("op1=" + op1);
     console.log("operand=" + operand);
@@ -9,6 +12,8 @@ export function evaluate (op1, operand, operator) {
 
     // cast operand to be a number
     operand = Number(operand);
+
+    setCurrOperator(0);
 
     // Switch statement to perform the operation
     switch(operator) {
@@ -28,34 +33,32 @@ export function evaluate (op1, operand, operator) {
     };
 }
 
-// props.operation(props.operator1, props.operand, props.operator, props.setOperand1, props.setOperand2, props.result, props.setResult, props.setOperator);
 
-// TODO: Code is no longer crashing, but nothing really happens when clicking on the operation button.
-// TODO: Need to set it up so that the next time a number is pressed after pressing on an operation, the display clears and it starts from the second number
-//  - This can be done as building the string that will be displayed in the history section of the calculator
-export function add (op1, operand, currOperator, setOperand1, setOperand2, result, setResult, setCurrOperator) {
+// props.operation(props.operand1, props.operand, props.operator, props.setOperand1, props.result, props.setResult, props.setOperator);
+
+export function add (op1, operand, currOperator, setCurrOperator, setOperand1, result, setResult) {
+
+    console.log("executing add function");
 
     // Parameter check
-    console.log("Lift Check (Start):");
     console.log("op1: " + op1);
     console.log("operand: " + operand);
     console.log("currOperator: " + currOperator);
 
     let currResult = result;
 
-    // If not the first operator
+    // If not the first operand
     if (currOperator !== 0) {
         
         // Store the results of the previous operation in the first operand
-        currResult = evaluate(op1, Number(operand), currOperator);
+        currResult = evaluate(op1, Number(operand), currOperator, setCurrOperator);
         // setResult(result);
-        setOperand1(result);
+        setOperand1(currResult);
 
-        // Reset the second operand
-        setOperand2(0);
-
-    // First operation being used
+    // First operand
     } else {
+
+        console.log("setting first operand to " + operand);
 
         // Set state for the first operand
         setOperand1(Number(operand));
