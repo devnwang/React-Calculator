@@ -1,0 +1,4 @@
+/* margin to be applied to the rows of the calculator buttons */
+.row-margin {
+    margin: 5px;
+}
