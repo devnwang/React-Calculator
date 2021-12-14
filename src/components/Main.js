@@ -9,8 +9,8 @@ import './components.css';
 const Main = () => {
 
     const [display, setDisplay] = useState("");
-    const [operand1, setOperand1] = useState(0);
-    // const [operand2, setOperand2] = useState(0);
+    const [operand1, setOperand1] = useState("");
+    const [operand2, setOperand2] = useState("");
     // const [currOperand, setCurrOperand] = useState(0);
     const [operator, setOperator] = useState(0);
     const [result, setResult] = useState(0);
@@ -29,23 +29,19 @@ const Main = () => {
 
     }, [history]);
 
-    useEffect( () => {
-        console.log("operand1 has been changed to: " + operand1);
-    }, [operand1]);
-
     // Majority of the numbers (rows 1-3)
     const numbers = [
         {
             rowNum: 1,
-            values: [7, 8, 9]
+            values: ['7', '8', '9']
         },
         {
             rowNum: 2,
-            values: [4, 5, 6]
+            values: ['4', '5', '6']
         },
         {
             rowNum: 3,
-            values: [1, 2, 3]
+            values: ['1', '2', '3']
         }
     ];
 
@@ -56,7 +52,17 @@ const Main = () => {
         // Creates the numbered buttons within a row
         let rowNums = numValues.map((col) =>
             <div className="col" key={"numDiv" + col} style={{width: '100%'}}>
-                <NumBtn classname="btn btn-secondary" value={col} display={display} setDisplay={setDisplay} buffer={ buffer } setBuffer={ setBuffer } />
+                <NumBtn
+                    classname="btn btn-secondary"
+                    value={col} display={display}
+                    setDisplay={setDisplay}
+                    operator={ operator }
+                    operand1={ operand1 }
+                    operand2={ operand2 }
+                    setOperand1={ setOperand1 }
+                    setOperand2={ setOperand2 }
+                    buffer={ buffer }
+                    setBuffer={ setBuffer } />
             </div>
         )
 
@@ -71,7 +77,7 @@ const Main = () => {
     // Row 4 buttons
     const row4 = [
         { 
-            value: 0,
+            value: '0',
             keyName: 0
         },
         { 
@@ -96,13 +102,15 @@ const Main = () => {
                     value={ item.value }
                     operation={ item.operation }
                     operand1={ operand1 }
-                    operand={ display }
-                    operator={ operator }
                     setOperand1={ setOperand1 }
-                    // setOperand2={ setOperand2 }
+                    operand2={ operand2 }
+                    setOperand2={ setOperand2 }
+                    operator={ operator }
+                    setOperator={ setOperator }
+                    display={ display }
+                    setDisplay={ setDisplay }
                     result = { result }
                     setResult={ setResult }
-                    setOperator={ setOperator }
                     buffer={ buffer }
                     setBuffer={ setBuffer }
                     history={ history }
@@ -112,7 +120,12 @@ const Main = () => {
                         classname="btn btn-secondary"
                         style={{width: '100%'}} 
                         value={item.value} 
-                        display={display} 
+                        display={display}
+                        operator={ operator }
+                        operand1={ operand1 }
+                        setOperand1={ setOperand1 }
+                        operand2={ operand2 }
+                        setOperand2={ setOperand2 }
                         setDisplay={setDisplay}
                         buffer={ buffer }
                         setBuffer={ setBuffer } />
@@ -152,13 +165,15 @@ const Main = () => {
                 value={ op.operation }
                 operation={ op.callback }
                 operand1={ operand1 }
-                operand={ display }
-                operator={ operator }
                 setOperand1={ setOperand1 }
-                // setOperand2={ setOperand2 }
+                operand2={ operand2 }
+                setOperand2={ setOperand2 }
+                operator={ operator }
+                setOperator={ setOperator }
+                display={ display }
+                setDisplay={ setDisplay }
                 result={ result }
                 setResult={ setResult }
-                setOperator={ setOperator }
                 buffer={ buffer }
                 setBuffer={ setBuffer } />
         </div>
@@ -172,7 +187,7 @@ const Main = () => {
                     <div className="card" key="mainCalc">
                         <div className="card-body" key="mainBody" >
                             {/* Input/Result display */}
-                            <div className="row row-margin" key="displayRow">
+                            <div className="row" key="displayRow">
                                 <div className="col" key="inputDisplayDiv">
                                     <CalculatorDisplay label="Input" value={ display } propsKey="inpDisplay" />
                                 </div>
@@ -211,6 +226,20 @@ const Main = () => {
                                     { /* Buttons for the operations */}
                                     { operationBtns }
                                 </div>
+                            </div>
+                            
+                            {/* Button to clear the whole expression */}
+                            <div className="row row-margin" key="clearOperationDiv">
+                                <OperationBtn
+                                    classname="btn btn-danger"
+                                    value="CLEAR"
+                                    setOperand1={ setOperand1 }
+                                    setOperand2={ setOperand2 }
+                                    setOperator={ setOperator }
+                                    setResult={ setResult }
+                                    setBuffer={ setBuffer }
+                                    setDisplay={ setDisplay }
+                                />
                             </div>
                         </div>
                     </div>

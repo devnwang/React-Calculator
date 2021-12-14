@@ -5,31 +5,34 @@ const NumBtn = (props) => {
 
     const callBack = () => {
 
-        // store the current input that is displayed
-        let display = props.display;
+        console.log("start of num callback");
+        console.log("buffer:" + props.buffer);
 
-        // previous element is a string (operation)
-        if (typeof(props.buffer.at(-1)) === "string") {
+        // Previous input was the evaluate function
+        if (props.buffer.at(-1) === "=") {
+            console.log("buffer cleared");
+            props.setBuffer([]);
+            props.setDisplay('');
+        }
 
-            // clear the display so that the new operand is displayed
-            // TODO: Don't clear the display until the evaluate operation is executed
-            display = "";
-            console.log("display cleared");
+        let inputStr;
 
-            // clear the buffer as well
-            if (props.buffer.at(-1) === "=") {
-                console.log("buffer cleared");
-                props.setBuffer(currBuffer => []);
-            }
+        // Current input is not the first operand
+        if (props.operator !== 0) {
+            inputStr = props.operand2 === undefined ? props.value : props.operand2 + props.value;
+            props.setOperand2(inputStr);
+            console.log("operand2: " + inputStr);
+        } else {
+            inputStr = props.operand1 === undefined ? props.value : props.operand1 + props.value;
+            props.setOperand1(inputStr);
+            console.log("operand1: " + inputStr);
         }
 
         // adds the value to the display
-        props.setDisplay(display + props.value)
+        props.setDisplay(props.display + props.value)
 
         // push value to the Buffer
         props.setBuffer(currBuffer => [...currBuffer, props.value]);
-
-        console.log("Key pressed: " + props.value);
     };
 
     return (
