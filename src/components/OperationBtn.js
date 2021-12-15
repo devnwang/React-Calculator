@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from './Button';
-import { clearValues } from './utils';
+import { operation, clearValues } from './utils';
 
 /*
     Operations:
@@ -18,9 +18,11 @@ const OperationBtn = (props) => {
     // Need a lambda function in order to implement a callback function on a button
     const callbackFunc = () => {
 
-        // CLEAR button is pressed -> clears the current expression
+        // CLEAR button is pressed -> clears the input and results display
         if (props.value === "CLEAR") {
             clearValues(props.setOperand1, props.setOperand2, props.setOperator, props.setResult, props.setDisplay, props.setBuffer);
+        
+        // Other operation button
         } else {
 
             // Adds the operation to the buffer in order to display the history
@@ -28,9 +30,7 @@ const OperationBtn = (props) => {
             console.log("value " + props.value + " is added to the buffer");
 
             // the results of the current operation
-            // export function evaluate (op1, op2, operator, setCurrOperator) {
-            // export function add (op1, op2, currOperator, setCurrOperator, setOperand1, result, setResult) {
-            let results = props.operation(props.operand1, props.operand2, props.operator, props.setOperator, props.setOperand1, props.setOperand2, props.result, props.setResult);
+            let results = operation(props.operand1, props.operand2, props.operator, props.value, props.setOperator, props.setOperand1, props.setOperand2, props.result);
 
             // update the results display
             props.setResult(results);
@@ -49,6 +49,7 @@ const OperationBtn = (props) => {
 
                     // history component
                     <div key={ "h" + props.history.length }>
+                        {/* TODO: Make this into a card with the ability to remove the card if so wish */}
                         { buffer.toString() }
                         { results }
                     </div>

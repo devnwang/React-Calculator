@@ -1,4 +1,4 @@
-
+// Function that implemets the evalution of the expression
 export function evaluate (op1, op2, operator, setCurrOperator) {
 
     console.log("executing evaluate function");
@@ -29,27 +29,25 @@ export function evaluate (op1, op2, operator, setCurrOperator) {
     };
 }
 
+// Function that handles all the calculating operations since they follow the same procedure
+export function operation (op1, op2, prevOperator, operator, setOperator, setOperand1, setOperand2, result) {
 
-// props.operation(props.operand1, props.operand, props.operator, props.setOperand1, props.result, props.setResult, props.setOperator);
-
-export function add (op1, op2, currOperator, setCurrOperator, setOperand1, setOperand2, result, setResult) {
-
-    console.log("executing add function");
+    console.log("executing the operation");
 
     // Parameter check
     console.log("op1: " + op1);
     console.log("op2: " + op2);
-    console.log("currOperator: " + currOperator);
+    console.log("prevOperator: " + prevOperator);
 
-    let currResult = result;
+    let runningResult = result;
 
     // If not the first operand
-    if (currOperator !== 0) {
+    if (prevOperator !== 0) {
         
         // Store the results of the previous operation in the first operand
-        currResult = evaluate(op1, op2, currOperator, setCurrOperator);
+        runningResult = evaluate(op1, op2, prevOperator, setOperator);
         // setResult(result);
-        setOperand1(currResult);
+        setOperand1(runningResult);
         setOperand2('');
 
     // First operand
@@ -62,11 +60,13 @@ export function add (op1, op2, currOperator, setCurrOperator, setOperand1, setOp
     }
 
     // Sets the current operator to "add" operation
-    setCurrOperator("+");
+    setOperator(operator);
+    console.log("set operator to " + operator);
 
-    return currResult;
+    return runningResult;
 }
 
+// Helper function used to reset the state hooks
 export function clearValues(setOperand1, setOperand2, setOperator, setResult, setDisplay, setBuffer) {
     setOperand1('');
     setOperand2('');

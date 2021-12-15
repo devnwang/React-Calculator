@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CalculatorDisplay from './CalculatorDisplay';
 import NumBtn from './NumBtn';
 import OperationBtn from './OperationBtn';
-import { evaluate, add } from './utils.js';
+import { evaluate } from './utils.js';
 import './components.css';
 
 
@@ -11,7 +11,6 @@ const Main = () => {
     const [display, setDisplay] = useState("");
     const [operand1, setOperand1] = useState("");
     const [operand2, setOperand2] = useState("");
-    // const [currOperand, setCurrOperand] = useState(0);
     const [operator, setOperator] = useState(0);
     const [result, setResult] = useState(0);
     const [history, setHistory] = useState([]);
@@ -30,6 +29,7 @@ const Main = () => {
     }, [history]);
 
     // Majority of the numbers (rows 1-3)
+    // Numbers are strings because having them be numbers causes issues when trying to concatenating them together
     const numbers = [
         {
             rowNum: 1,
@@ -95,8 +95,8 @@ const Main = () => {
 
         let obj;
 
+        // If the object contains the 'operation' key
         if ("operation" in item) {
-            // obj = <OperationBtn classname="btn btn-secondary" style={{width: '100%'}} value={item.value} />
             obj = <OperationBtn
                     classname="btn btn-secondary"
                     value={ item.value }
@@ -115,6 +115,8 @@ const Main = () => {
                     setBuffer={ setBuffer }
                     history={ history }
                     setHistory={ setHistory } />
+        
+        // a number button
         } else {
             obj = <NumBtn
                         classname="btn btn-secondary"
@@ -138,11 +140,11 @@ const Main = () => {
         )
     })
 
+    // blueprint for the operation buttons
     const operators = [
         {
             operation: '+',
-            keyName: "Add",
-            callback: add
+            keyName: "Add"
         },
         {
             operation: '-',
@@ -158,12 +160,12 @@ const Main = () => {
         }
     ];
 
+    // renders the operation buttons
     const operationBtns = operators.map((op) =>
         <div key={"div" + op.keyName} style={{margin: '5px'}}>
             <OperationBtn
                 classname="btn btn-secondary"
                 value={ op.operation }
-                operation={ op.callback }
                 operand1={ operand1 }
                 setOperand1={ setOperand1 }
                 operand2={ operand2 }
@@ -228,7 +230,7 @@ const Main = () => {
                                 </div>
                             </div>
                             
-                            {/* Button to clear the whole expression */}
+                            {/* Button to clear the current input and results display */}
                             <div className="row row-margin" key="clearOperationDiv">
                                 <OperationBtn
                                     classname="btn btn-danger"
@@ -255,6 +257,7 @@ const Main = () => {
                             {/* History content */}
                             { historyDisp }
                         </div>
+                        {/* TODO: Add a button here to clear the history contents if so wish */}
                     </div>
                 </div>
             </div>
