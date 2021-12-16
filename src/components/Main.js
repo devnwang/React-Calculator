@@ -253,11 +253,18 @@ const Main = () => {
                         <div className="card-header" key="historyHeader">
                             History
                         </div>
-                        <div className="card-body" key="historyBody">
+                        <div className="card-body overflow-auto" key="historyBody" style={{ "height": "300px" }}>
                             {/* History content */}
                             { historyDisp }
                         </div>
                         {/* TODO: Add a button here to clear the history contents if so wish */}
+                        <div className="row row-margin" key="clearHistoryDiv">
+                                <OperationBtn
+                                    classname="btn btn-danger"
+                                    value="CLEAR HISTORY"
+                                    setHistory={ setHistory }
+                                />
+                            </div>
                     </div>
                 </div>
             </div>
