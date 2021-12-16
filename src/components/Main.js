@@ -257,7 +257,7 @@ const Main = () => {
                             {/* History content */}
                             { historyDisp }
                         </div>
-                        {/* TODO: Add a button here to clear the history contents if so wish */}
+                        {/* Button that gives the ability to clear the history */}
                         <div className="row row-margin" key="clearHistoryDiv">
                                 <OperationBtn
                                     classname="btn btn-danger"

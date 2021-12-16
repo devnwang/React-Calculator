@@ -22,6 +22,10 @@ const OperationBtn = (props) => {
         if (props.value === "CLEAR") {
             clearValues(props.setOperand1, props.setOperand2, props.setOperator, props.setResult, props.setDisplay, props.setBuffer);
         
+        } else if (props.value === "CLEAR HISTORY") {
+
+            props.setHistory([]);
+
         // Other operation button
         } else {
 
@@ -44,15 +48,25 @@ const OperationBtn = (props) => {
                 // concatenate all values within the buffer
                 let buffer = (props.buffer + props.value).replaceAll(',', '');
 
+                // timestamp for the evaluation of the expression
+                let timestamp = new Date().toLocaleString();
+
                 // append the current expression to the history
-                props.setHistory(currHistory => [...currHistory,
+                props.setHistory(currHistory => [
 
                     // history component
                     <div key={ "h" + props.history.length }>
-                        {/* TODO: Make this into a card with the ability to remove the card if so wish */}
-                        { buffer.toString() }
-                        { results }
+                        <div className="card" key={ "hc" + props.history.length }>
+                            <div className="card-body" key={ "hcb" + props.history.length }>
+                                <span key={ "hcbs" + props.history.length }>{ buffer.toString() }</span>
+                                <br />
+                                <span key={ "hcbsr" + props.history.length } style={{"float": "right"}}>{ results }</span>
+                                <br />
+                                <span key={ "timestamp" + props.history.length } className="timestamp">{ timestamp }</span>
+                            </div>
+                        </div>
                     </div>
+                    , ...currHistory
                 ]);
 
                 console.log("history has been set")
