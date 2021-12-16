@@ -2,7 +2,7 @@
 
 A calculator built with React that can perform the basic operations on any number of inputs.
 
-![Application Preview](https://github.com/nikkijwang/React-Calculator/preview/application.png "Application Preview")
+![Application Preview](https://github.com/nikkijwang/React-Calculator/blob/main/preview/application.png "Application Preview")
 
 ## Basic Operations:
 - Addition
